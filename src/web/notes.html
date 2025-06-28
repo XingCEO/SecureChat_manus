@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>筆記本</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/notes.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#059669">
+    <link rel="icon" type="image/png" href="icons/notes-icon.png">
+</head>
+<body>
+    <div id="notes-app">
+        <!-- 筆記本頭部 -->
+        <div class="notes-header">
+            <div class="header-left">
+                <h1>筆記本</h1>
+                <span id="note-count" class="note-count">0 篇筆記</span>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="搜索筆記..." class="search-input">
+                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </div>
+                <select id="sort-select" class="sort-select">
+                    <option value="modified">最近修改</option>
+                    <option value="created">創建時間</option>
+                    <option value="title">標題排序</option>
+                </select>
+                <button id="view-toggle" class="icon-btn" title="切換視圖">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                    </svg>
+                </button>
+                <button id="new-note-btn" class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    新建筆記
+                </button>
+            </div>
+        </div>
+
+        <div class="notes-container">
+            <!-- 筆記列表 -->
+            <div class="notes-sidebar">
+                <div id="notes-list" class="notes-list">
+                    <!-- 筆記項目將動態添加 -->
+                </div>
+            </div>
+
+            <!-- 筆記編輯器 -->
+            <div id="note-editor" class="note-editor hidden">
+                <div class="editor-header">
+                    <input type="text" id="note-title" class="note-title-input" placeholder="筆記標題...">
+                    <div class="editor-actions">
+                        <button id="save-btn" class="btn-primary" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                                <polyline points="17,21 17,13 7,13 7,21"/>
+                                <polyline points="7,3 7,8 15,8"/>
+                            </svg>
+                            保存
+                        </button>
+                        <button id="delete-btn" class="btn-danger" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3,6 5,6 21,6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            刪除
+                        </button>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <textarea id="note-content" class="note-content-input" placeholder="開始寫筆記..."></textarea>
+                </div>
+                <div class="editor-footer">
+                    <div class="editor-stats">
+                        <span id="word-count">0 字</span>
+                        <span id="char-count">0 字符</span>
+                    </div>
+                    <div class="editor-tools">
+                        <button class="tool-btn" title="加粗">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+                                <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+                            </svg>
+                        </button>
+                        <button class="tool-btn" title="斜體">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="4" x2="10" y2="4"/>
+                                <line x1="14" y1="20" x2="5" y2="20"/>
+                                <line x1="15" y1="4" x2="9" y2="20"/>
+                            </svg>
+                        </button>
+                        <button class="tool-btn" title="列表">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"/>
+                                <line x1="8" y1="12" x2="21" y2="12"/>
+                                <line x1="8" y1="18" x2="21" y2="18"/>
+                                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                                <line x1="3" y1="18" x2="3.01" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 空狀態 -->
+            <div id="empty-state" class="empty-state">
+                <div class="empty-icon">📝</div>
+                <h3>選擇一篇筆記開始編輯</h3>
+                <p>或者創建一篇新筆記記錄您的想法</p>
+            </div>
+        </div>
+
+        <!-- 密碼輸入對話框 -->
+        <div class="password-modal" id="password-modal">
+            <div class="modal-content">
+                <h3>輸入密碼</h3>
+                <div class="password-input-group">
+                    <input type="password" id="hidden-password" placeholder="請輸入密碼">
+                </div>
+                <div class="modal-actions">
+                    <button id="cancel-password" class="btn-secondary">取消</button>
+                    <button id="confirm-password" class="btn-primary">確認</button>
+                </div>
+                <div class="password-hint">
+                    <small>提示：在筆記中輸入特定關鍵詞</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- 偽裝模式切換 -->
+        <div class="disguise-toggle" id="disguise-toggle">
+            <button class="disguise-btn" data-mode="normal" title="正常模式">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+            </button>
+            <button class="disguise-btn" data-mode="calculator" title="計算器模式">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="2" width="16" height="20" rx="2"/>
+                    <path d="M8 6h8"/>
+                    <path d="M8 10h8"/>
+                    <path d="M8 14h8"/>
+                    <path d="M8 18h8"/>
+                </svg>
+            </button>
+            <button class="disguise-btn active" data-mode="notes" title="筆記模式">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14,2 14,8 20,8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- 加載中指示器 -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>正在驗證...</p>
+    </div>
+
+    <!-- JavaScript 模組 -->
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/security/disguise.js"></script>
+    <script src="js/ui/notes-ui.js"></script>
+    <script>
+        // 初始化筆記本應用
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // 初始化存儲
+                await secureStorage.initialize();
+                
+                // 初始化認證管理器
+                await authManager.initialize();
+                
+                // 初始化偽裝管理器
+                await disguiseManager.initialize();
+                
+                // 初始化筆記本UI
+                await notesUI.initialize();
+                
+                console.log('筆記本應用初始化完成');
+            } catch (error) {
+                console.error('筆記本應用初始化失敗:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+

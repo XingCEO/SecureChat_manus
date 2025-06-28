@@ -1,0 +1,162 @@
+{
+  "name": "securechat",
+  "version": "1.0.0",
+  "description": "跨平台安全聊天系統 - 端到端加密通信",
+  "main": "src/electron/main.js",
+  "homepage": "./",
+  "author": {
+    "name": "SecureChat Team",
+    "email": "team@securechat.app"
+  },
+  "license": "MIT",
+  "keywords": [
+    "secure",
+    "chat",
+    "encryption",
+    "cross-platform",
+    "electron",
+    "capacitor"
+  ],
+  "scripts": {
+    "start": "electron .",
+    "dev": "concurrently \"npm run server:dev\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "npm run build:web && npm run build:electron",
+    "build:web": "echo 'Web build completed'",
+    "build:electron": "electron-builder",
+    "build:electron:win": "electron-builder --win",
+    "build:electron:mac": "electron-builder --mac",
+    "build:electron:linux": "electron-builder --linux",
+    "build:all": "npm run build:electron:win && npm run build:electron:mac && npm run build:electron:linux",
+    "server:dev": "cd server && npm run dev",
+    "server:start": "cd server && npm start",
+    "cap:init": "npx cap init",
+    "cap:add:ios": "npx cap add ios",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:build:ios": "npx cap build ios",
+    "cap:build:android": "npx cap build android",
+    "cap:open:ios": "npx cap open ios",
+    "cap:open:android": "npx cap open android",
+    "mobile:build": "npm run cap:sync && npm run cap:build:ios && npm run cap:build:android",
+    "dist": "npm run build && npm run mobile:build",
+    "clean": "rimraf dist/ build/ node_modules/.cache/",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.securechat.app",
+    "productName": "SecureChat",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "src/web",
+        "to": "web",
+        "filter": ["**/*"]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.social-networking",
+      "icon": "build/icons/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ]
+    },
+    "win": {
+      "icon": "build/icons/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64", "ia32"]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "build/icons/icon.png",
+      "category": "Network",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SecureChat"
+    },
+    "dmg": {
+      "title": "SecureChat ${version}",
+      "backgroundColor": "#ffffff",
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 410,
+          "y": 230,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 230,
+          "type": "file"
+        }
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "securechat",
+      "repo": "securechat"
+    }
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/ios": "^6.1.2",
+    "concurrently": "^8.2.2",
+    "electron": "^32.2.7",
+    "electron-builder": "^25.1.8",
+    "wait-on": "^8.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
+

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全聊天系統</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="icon" type="image/png" href="icons/icon-192.png">
+</head>
+<body>
+    <div id="app">
+        <!-- 登錄界面 -->
+        <div id="login-screen" class="screen active">
+            <div class="login-container">
+                <div class="logo-section">
+                    <div class="logo">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            <path d="M12 7v6"/>
+                            <path d="M9 10l3-3 3 3"/>
+                        </svg>
+                    </div>
+                    <h1>安全聊天</h1>
+                    <p>端到端加密 · 威脅檢測 · 隱私保護</p>
+                </div>
+                
+                <div class="auth-forms">
+                    <!-- 登錄表單 -->
+                    <form id="login-form" class="auth-form active">
+                        <h2>登錄</h2>
+                        <div class="form-group">
+                            <label for="login-username">用戶名</label>
+                            <input type="text" id="login-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">密碼</label>
+                            <input type="password" id="login-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-secondary">二級密碼 (可選)</label>
+                            <input type="password" id="login-secondary" placeholder="用於高級功能">
+                        </div>
+                        <button type="submit" class="btn-primary">登錄</button>
+                        <p class="auth-switch">
+                            還沒有帳戶？ <a href="#" id="show-register">註冊</a>
+                        </p>
+                    </form>
+                    
+                    <!-- 註冊表單 -->
+                    <form id="register-form" class="auth-form">
+                        <h2>註冊</h2>
+                        <div class="form-group">
+                            <label for="register-username">用戶名</label>
+                            <input type="text" id="register-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">郵箱</label>
+                            <input type="email" id="register-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">密碼</label>
+                            <input type="password" id="register-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-confirm">確認密碼</label>
+                            <input type="password" id="register-confirm" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-secondary">二級密碼</label>
+                            <input type="password" id="register-secondary" required placeholder="用於高級功能">
+                        </div>
+                        <button type="submit" class="btn-primary">註冊</button>
+                        <p class="auth-switch">
+                            已有帳戶？ <a href="#" id="show-login">登錄</a>
+                        </p>
+                    </form>
+                </div>
+                
+                <!-- 偽裝模式入口 -->
+                <div class="disguise-modes">
+                    <p class="disguise-hint">或選擇偽裝模式：</p>
+                    <div class="disguise-buttons">
+                        <button id="calc-mode" class="disguise-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                                <path d="M8 6h8"/>
+                                <path d="M8 10h8"/>
+                                <path d="M8 14h8"/>
+                                <path d="M8 18h8"/>
+                            </svg>
+                            計算器
+                        </button>
+                        <button id="notes-mode" class="disguise-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14,2 14,8 20,8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10,9 9,9 8,9"/>
+                            </svg>
+                            筆記本
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主界面 -->
+        <div id="main-screen" class="screen">
+            <div class="main-container">
+                <!-- 側邊欄 -->
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <span id="user-initial">U</span>
+                            </div>
+                            <div class="user-details">
+                                <span id="user-name">用戶</span>
+                                <span id="user-status" class="status online">在線</span>
+                            </div>
+                        </div>
+                        <div class="sidebar-actions">
+                            <button id="new-chat-btn" class="icon-btn" title="新建聊天">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 5v14"/>
+                                    <path d="M5 12h14"/>
+                                </svg>
+                            </button>
+                            <button id="settings-btn" class="icon-btn" title="設置">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 1v6m0 6v6"/>
+                                    <path d="M1 12h6m6 0h6"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 搜索欄 -->
+                    <div class="search-bar">
+                        <input type="text" id="chat-search" placeholder="搜索聊天...">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="M21 21l-4.35-4.35"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- 聊天列表 -->
+                    <div class="chat-list" id="chat-list">
+                        <!-- 聊天項目將通過JavaScript動態添加 -->
+                    </div>
+                </div>
+                
+                <!-- 聊天區域 -->
+                <div class="chat-area">
+                    <div class="chat-placeholder">
+                        <div class="placeholder-content">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            <h3>選擇一個聊天開始對話</h3>
+                            <p>您的消息將使用端到端加密保護</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 威脅警告彈窗 -->
+        <div id="threat-modal" class="modal">
+            <div class="modal-content threat-warning">
+                <div class="threat-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                </div>
+                <h3>威脅檢測警告</h3>
+                <p id="threat-message">檢測到潛在威脅</p>
+                <div class="threat-actions">
+                    <button id="threat-ignore" class="btn-secondary">忽略</button>
+                    <button id="threat-emergency" class="btn-danger">應急模式</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 應急銷毀確認 -->
+        <div id="emergency-modal" class="modal">
+            <div class="modal-content emergency-confirm">
+                <h3>應急銷毀確認</h3>
+                <p>請選擇銷毀級別：</p>
+                <div class="destroy-levels">
+                    <button class="destroy-level" data-level="1">
+                        <span class="level">Level 1</span>
+                        <span class="desc">清除當前會話</span>
+                    </button>
+                    <button class="destroy-level" data-level="2">
+                        <span class="level">Level 2</span>
+                        <span class="desc">清除所有消息</span>
+                    </button>
+                    <button class="destroy-level" data-level="3">
+                        <span class="level">Level 3</span>
+                        <span class="desc">清除用戶數據</span>
+                    </button>
+                    <button class="destroy-level" data-level="4">
+                        <span class="level">Level 4</span>
+                        <span class="desc">完全銷毀</span>
+                    </button>
+                </div>
+                <div class="emergency-password">
+                    <input type="password" id="emergency-password" placeholder="輸入應急密碼">
+                    <button id="confirm-destroy" class="btn-danger">確認銷毀</button>
+                </div>
+                <button id="cancel-emergency" class="btn-secondary">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 加載動畫 -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>正在連接...</p>
+    </div>
+    
+    <!-- JavaScript 模組 -->
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/core/websocket.js"></script>
+    <script src="js/core/sync.js"></script>
+    <script src="js/security/crypto.js"></script>
+    <script src="js/security/detector.js"></script>
+    <script src="js/security/emergency.js"></script>
+    <script src="js/security/disguise.js"></script>
+    <script src="js/ui/chat-ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+

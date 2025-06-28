@@ -1,0 +1,671 @@
+/* 筆記本偽裝界面樣式 */
+
+#notes-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--background);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 筆記本頭部 */
+.notes-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    z-index: 10;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.notes-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.note-count {
+    font-size: 14px;
+    color: var(--text-secondary);
+    background: var(--surface-hover);
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 搜索框 */
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 240px;
+    padding: 8px 12px 8px 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+/* 排序選擇器 */
+.sort-select {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    background: white;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* 筆記容器 */
+.notes-container {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* 筆記側邊欄 */
+.notes-sidebar {
+    width: 320px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.notes-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 0;
+}
+
+.notes-list.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 16px;
+}
+
+/* 筆記項目 */
+.note-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.note-item:hover {
+    background: var(--surface-hover);
+}
+
+.note-item.selected {
+    background: rgba(37, 99, 235, 0.1);
+    border-left: 4px solid var(--primary-color);
+}
+
+.notes-list.grid-view .note-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0;
+}
+
+.note-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.note-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.4;
+    flex: 1;
+}
+
+.note-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.note-date {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.pin-icon, .encrypt-icon {
+    font-size: 12px;
+}
+
+.note-preview {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.note-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    font-size: 11px;
+    color: var(--primary-color);
+    background: rgba(37, 99, 235, 0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* 筆記編輯器 */
+.note-editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    overflow: hidden;
+}
+
+.note-editor.hidden {
+    display: none;
+}
+
+.editor-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.note-title-input {
+    flex: 1;
+    font-size: 24px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    padding: 8px 0;
+    color: var(--text-primary);
+    background: transparent;
+}
+
+.note-title-input::placeholder {
+    color: var(--text-muted);
+}
+
+.editor-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.editor-actions button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.editor-actions button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.editor-actions button.modified {
+    background: var(--warning-color);
+    border-color: var(--warning-color);
+}
+
+/* 編輯器內容 */
+.editor-content {
+    flex: 1;
+    padding: 24px;
+    overflow: hidden;
+}
+
+.note-content-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: transparent;
+    resize: none;
+    font-family: inherit;
+}
+
+.note-content-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* 編輯器底部 */
+.editor-footer {
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+}
+
+.editor-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.editor-tools {
+    display: flex;
+    gap: 4px;
+}
+
+.tool-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-btn:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+}
+
+.tool-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* 空狀態 */
+.empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 48px;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 300px;
+}
+
+/* 密碼對話框 */
+.password-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.password-modal.active {
+    display: flex;
+}
+
+.password-modal .modal-content {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: modalSlideUp 0.3s ease;
+}
+
+.password-modal h3 {
+    margin-bottom: 24px;
+    color: var(--text-primary);
+}
+
+.password-input-group {
+    margin-bottom: 24px;
+}
+
+.password-input-group input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 16px;
+    text-align: center;
+}
+
+.password-input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+.password-hint {
+    margin-top: 16px;
+    color: var(--text-muted);
+}
+
+/* 偽裝模式切換 */
+.disguise-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 24px;
+    padding: 8px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+    gap: 4px;
+    z-index: 100;
+}
+
+.disguise-toggle.show {
+    display: flex;
+}
+
+.disguise-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disguise-btn:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+}
+
+.disguise-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* 加載覆蓋層 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 3000;
+}
+
+.loading-overlay.active {
+    display: flex;
+}
+
+.loading-overlay .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+.loading-overlay p {
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+/* 提示消息 */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--success-color);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 4000;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast.toast-error {
+    background: var(--danger-color);
+}
+
+.toast.toast-warning {
+    background: var(--warning-color);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .notes-container {
+        flex-direction: column;
+    }
+    
+    .notes-sidebar {
+        width: 100%;
+        height: 40%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .note-editor {
+        height: 60%;
+    }
+    
+    .notes-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+    }
+    
+    .header-right {
+        justify-content: space-between;
+    }
+    
+    .search-input {
+        width: 200px;
+    }
+    
+    .editor-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .editor-actions {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 480px) {
+    .notes-header {
+        padding: 12px 16px;
+    }
+    
+    .header-right {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .search-input {
+        width: 160px;
+    }
+    
+    .editor-content {
+        padding: 16px;
+    }
+    
+    .note-content-input {
+        font-size: 14px;
+    }
+    
+    .password-modal .modal-content {
+        width: 95%;
+        padding: 24px;
+    }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    .note-item {
+        background: #2d3748;
+        border-color: #4a5568;
+    }
+    
+    .note-item:hover {
+        background: #4a5568;
+    }
+    
+    .note-editor {
+        background: #2d3748;
+    }
+    
+    .search-input, .sort-select {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: white;
+    }
+    
+    .password-modal .modal-content {
+        background: #2d3748;
+        color: white;
+    }
+}
+
+/* 動畫效果 */
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 滾動條樣式 */
+.notes-list::-webkit-scrollbar,
+.note-content-input::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notes-list::-webkit-scrollbar-track,
+.note-content-input::-webkit-scrollbar-track {
+    background: var(--surface);
+}
+
+.notes-list::-webkit-scrollbar-thumb,
+.note-content-input::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.notes-list::-webkit-scrollbar-thumb:hover,
+.note-content-input::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+

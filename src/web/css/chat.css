@@ -1,0 +1,504 @@
+/* 聊天界面專用樣式 */
+
+#chat-app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+}
+
+/* 聊天頭部 */
+.chat-header {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow);
+  z-index: 10;
+}
+
+.chat-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+}
+
+.chat-details h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.chat-details .status {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.chat-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-actions .icon-btn.encrypted {
+  color: var(--success-color);
+}
+
+.chat-actions .icon-btn.safe {
+  color: var(--success-color);
+}
+
+.chat-actions .icon-btn.warning {
+  color: var(--warning-color);
+}
+
+.chat-actions .icon-btn.danger {
+  color: var(--danger-color);
+}
+
+/* 消息區域 */
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--surface);
+  position: relative;
+}
+
+.messages-list {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 100%;
+}
+
+/* 系統消息 */
+.system-message {
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary-color);
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+/* 消息氣泡 */
+.message {
+  display: flex;
+  gap: 12px;
+  max-width: 70%;
+  animation: messageSlideIn 0.3s ease;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.sent {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message.received {
+  align-self: flex-start;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.message.sent .message-avatar {
+  background: var(--primary-color);
+}
+
+.message-content {
+  flex: 1;
+}
+
+.message-bubble {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  position: relative;
+  word-wrap: break-word;
+}
+
+.message.sent .message-bubble {
+  background: var(--primary-color);
+  color: white;
+}
+
+.message.received .message-bubble {
+  background: white;
+  color: var(--text-primary);
+}
+
+.message-text {
+  line-height: 1.4;
+}
+
+.message-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.message.sent .message-meta {
+  justify-content: flex-end;
+}
+
+.message-time {
+  color: var(--text-muted);
+}
+
+.message-status {
+  display: flex;
+  align-items: center;
+}
+
+.message-status svg {
+  width: 14px;
+  height: 14px;
+}
+
+.message-status.sent {
+  color: var(--text-muted);
+}
+
+.message-status.delivered {
+  color: var(--text-muted);
+}
+
+.message-status.read {
+  color: var(--primary-color);
+}
+
+/* 加密指示器 */
+.encrypted-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--success-color);
+  margin-left: 8px;
+}
+
+.encrypted-indicator svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* 輸入區域 */
+.input-area {
+  background: white;
+  border-top: 1px solid var(--border);
+  padding: 16px 20px;
+}
+
+.input-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  max-width: 100%;
+}
+
+.message-input-wrapper {
+  flex: 1;
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.message-input-wrapper:focus-within {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+}
+
+#message-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  resize: none;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  max-height: 120px;
+  min-height: 20px;
+}
+
+#message-input::placeholder {
+  color: var(--text-muted);
+}
+
+.input-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.send-btn {
+  width: 44px;
+  height: 44px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+.send-btn:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 打字指示器 */
+.typing-indicator {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.typing-indicator.active {
+  display: flex;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  animation: typingDot 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingDot {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 下拉菜單 */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  min-width: 200px;
+  display: none;
+  animation: dropdownSlideIn 0.2s ease;
+}
+
+.dropdown-menu.active {
+  display: block;
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-item {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-primary);
+  transition: background-color 0.2s ease;
+}
+
+.menu-item:hover {
+  background: var(--surface-hover);
+}
+
+.menu-item.danger {
+  color: var(--danger-color);
+}
+
+.menu-item.danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+/* 文件預覽 */
+.file-preview {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.file-preview.active {
+  display: block;
+}
+
+.preview-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.file-icon {
+  color: var(--text-secondary);
+}
+
+.file-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.file-size {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .chat-header {
+    padding: 12px 16px;
+  }
+  
+  .messages-list {
+    padding: 16px;
+  }
+  
+  .message {
+    max-width: 85%;
+  }
+  
+  .input-area {
+    padding: 12px 16px;
+  }
+  
+  .input-container {
+    gap: 8px;
+  }
+  
+  .send-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .message {
+    max-width: 90%;
+  }
+  
+  .chat-header {
+    padding: 8px 12px;
+  }
+  
+  .messages-list {
+    padding: 12px;
+  }
+  
+  .input-area {
+    padding: 8px 12px;
+  }
+}
+

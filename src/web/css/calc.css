@@ -1,0 +1,537 @@
+/* 計算器偽裝界面樣式 */
+
+#calculator-app {
+    max-width: 400px;
+    margin: 0 auto;
+    background: var(--background);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 計算器頭部 */
+.calc-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+}
+
+.calc-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.calc-menu {
+    display: flex;
+    gap: 8px;
+}
+
+.calc-menu .icon-btn {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.calc-menu .icon-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 顯示屏 */
+.calc-display {
+    background: #1a1a1a;
+    color: white;
+    padding: 24px 20px;
+    text-align: right;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.calc-expression {
+    font-size: 16px;
+    color: #888;
+    margin-bottom: 8px;
+    min-height: 20px;
+    word-wrap: break-word;
+    opacity: 0.7;
+}
+
+.calc-result {
+    font-size: 36px;
+    font-weight: 300;
+    color: white;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    word-wrap: break-word;
+    animation: resultUpdate 0.2s ease;
+}
+
+@keyframes resultUpdate {
+    0% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* 按鈕區域 */
+.calc-buttons {
+    flex: 1;
+    padding: 20px;
+    background: var(--surface);
+}
+
+.calc-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.calc-row:last-child {
+    margin-bottom: 0;
+}
+
+/* 計算器按鈕 */
+.calc-btn {
+    height: 64px;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.calc-btn:active {
+    transform: scale(0.95);
+}
+
+/* 數字按鈕 */
+.calc-btn.number {
+    background: white;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.calc-btn.number:hover {
+    background: var(--surface-hover);
+    transform: translateY(-1px);
+}
+
+.calc-btn.number.zero {
+    grid-column: span 2;
+}
+
+/* 運算符按鈕 */
+.calc-btn.operator {
+    background: var(--primary-color);
+    color: white;
+}
+
+.calc-btn.operator:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.calc-btn.operator.active {
+    background: var(--primary-hover);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+/* 功能按鈕 */
+.calc-btn.function {
+    background: var(--secondary-color);
+    color: white;
+    font-size: 18px;
+}
+
+.calc-btn.function:hover {
+    background: #475569;
+    transform: translateY(-1px);
+}
+
+/* 等號按鈕 */
+.calc-btn.equals {
+    background: var(--success-color);
+    color: white;
+    grid-column: span 2;
+}
+
+.calc-btn.equals:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+.calc-btn.equals:active {
+    background: #047857;
+}
+
+/* 科學計算器面板 */
+.scientific-panel {
+    display: none;
+    padding: 0 20px 20px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+}
+
+.scientific-panel.active {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 歷史記錄面板 */
+.history-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background: white;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-panel.active {
+    right: 0;
+}
+
+.history-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.history-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 0;
+}
+
+.history-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.history-item:hover {
+    background: var(--surface-hover);
+}
+
+.history-expression {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.history-result {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.history-time {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+/* 隱藏入口提示 */
+.hidden-entrance-hint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.hidden-entrance-hint.show {
+    opacity: 1;
+}
+
+/* 密碼輸入對話框 */
+.password-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.password-modal.active {
+    display: flex;
+}
+
+.password-modal .modal-content {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    width: 90%;
+    max-width: 320px;
+    text-align: center;
+    animation: modalSlideUp 0.3s ease;
+}
+
+.password-modal h3 {
+    margin-bottom: 24px;
+    color: var(--text-primary);
+}
+
+.password-input-group {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.password-input-group input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 8px;
+    background: transparent;
+}
+
+.password-input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.password-dots {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.password-dots .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: background-color 0.2s ease;
+}
+
+.password-dots .dot.filled {
+    background: var(--primary-color);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+.password-hint {
+    margin-top: 16px;
+    color: var(--text-muted);
+}
+
+/* 偽裝模式切換 */
+.disguise-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 24px;
+    padding: 8px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+    gap: 4px;
+    z-index: 100;
+}
+
+.disguise-toggle.show {
+    display: flex;
+}
+
+.disguise-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disguise-btn:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+}
+
+.disguise-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* 加載覆蓋層 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 3000;
+}
+
+.loading-overlay.active {
+    display: flex;
+}
+
+.loading-overlay .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+.loading-overlay p {
+    color: var(--text-secondary);
+    font-size: 16px;
+}
+
+/* 錯誤狀態 */
+.calc-display.error .calc-result {
+    color: var(--danger-color);
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* 響應式設計 */
+@media (max-width: 480px) {
+    #calculator-app {
+        max-width: 100%;
+    }
+    
+    .calc-btn {
+        height: 56px;
+        font-size: 20px;
+    }
+    
+    .calc-result {
+        font-size: 28px;
+    }
+    
+    .calc-expression {
+        font-size: 14px;
+    }
+    
+    .history-panel {
+        width: 100%;
+    }
+    
+    .password-modal .modal-content {
+        width: 95%;
+        padding: 24px;
+    }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+    .calc-btn.number {
+        background: #2d3748;
+        color: white;
+        border-color: #4a5568;
+    }
+    
+    .calc-btn.number:hover {
+        background: #4a5568;
+    }
+    
+    .history-panel {
+        background: #1a202c;
+        color: white;
+    }
+    
+    .password-modal .modal-content {
+        background: #2d3748;
+        color: white;
+    }
+}
+
+/* 觸摸設備優化 */
+@media (hover: none) and (pointer: coarse) {
+    .calc-btn:hover {
+        transform: none;
+    }
+    
+    .calc-btn:active {
+        transform: scale(0.95);
+        background: var(--surface-hover);
+    }
+}
+

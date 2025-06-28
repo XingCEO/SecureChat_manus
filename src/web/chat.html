@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天 - 安全聊天系統</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+    <div id="chat-app">
+        <!-- 聊天頭部 -->
+        <div class="chat-header">
+            <button id="back-btn" class="icon-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5"/>
+                    <path d="M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            
+            <div class="chat-info">
+                <div class="chat-avatar">
+                    <span id="chat-initial">C</span>
+                </div>
+                <div class="chat-details">
+                    <h3 id="chat-name">聊天名稱</h3>
+                    <span id="chat-status" class="status">在線</span>
+                </div>
+            </div>
+            
+            <div class="chat-actions">
+                <button id="encryption-status" class="icon-btn encrypted" title="端到端加密已啟用">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <circle cx="12" cy="16" r="1"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </button>
+                <button id="threat-indicator" class="icon-btn safe" title="安全狀態">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </button>
+                <button id="chat-menu" class="icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"/>
+                        <circle cx="19" cy="12" r="1"/>
+                        <circle cx="5" cy="12" r="1"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 消息區域 -->
+        <div class="messages-container" id="messages-container">
+            <div class="messages-list" id="messages-list">
+                <!-- 消息將通過JavaScript動態添加 -->
+                <div class="system-message">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <circle cx="12" cy="16" r="1"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    端到端加密已啟用，您的消息受到保護
+                </div>
+            </div>
+        </div>
+        
+        <!-- 輸入區域 -->
+        <div class="input-area">
+            <div class="input-container">
+                <button id="attach-btn" class="icon-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                    </svg>
+                </button>
+                
+                <div class="message-input-wrapper">
+                    <textarea 
+                        id="message-input" 
+                        placeholder="輸入消息..." 
+                        rows="1"
+                        maxlength="4000"
+                    ></textarea>
+                    <div class="input-actions">
+                        <button id="emoji-btn" class="icon-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <button id="send-btn" class="send-btn" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- 打字指示器 -->
+            <div id="typing-indicator" class="typing-indicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="typing-text">正在輸入...</span>
+            </div>
+        </div>
+        
+        <!-- 聊天菜單 -->
+        <div id="chat-menu-dropdown" class="dropdown-menu">
+            <button class="menu-item" id="view-info">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 1v6m0 6v6"/>
+                    <path d="M1 12h6m6 0h6"/>
+                </svg>
+                聊天信息
+            </button>
+            <button class="menu-item" id="search-messages">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                搜索消息
+            </button>
+            <button class="menu-item" id="export-chat">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7,10 12,15 17,10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                導出聊天記錄
+            </button>
+            <div class="menu-divider"></div>
+            <button class="menu-item danger" id="clear-chat">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3,6 5,6 21,6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+                清除聊天記錄
+            </button>
+        </div>
+        
+        <!-- 文件上傳預覽 -->
+        <div id="file-preview" class="file-preview">
+            <div class="preview-content">
+                <div class="file-info">
+                    <div class="file-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                        </svg>
+                    </div>
+                    <div class="file-details">
+                        <span class="file-name">文件名.txt</span>
+                        <span class="file-size">1.2 MB</span>
+                    </div>
+                </div>
+                <button id="remove-file" class="icon-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 隱藏的文件輸入 -->
+    <input type="file" id="file-input" multiple accept="*/*" style="display: none;">
+    
+    <!-- JavaScript 模組 -->
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/websocket.js"></script>
+    <script src="js/security/crypto.js"></script>
+    <script src="js/security/detector.js"></script>
+    <script src="js/ui/chat-ui.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>
+

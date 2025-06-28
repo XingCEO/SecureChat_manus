@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>計算器</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/calc.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="icon" type="image/png" href="icons/calc-icon.png">
+</head>
+<body>
+    <div id="calculator-app">
+        <!-- 計算器頭部 -->
+        <div class="calc-header">
+            <h1>計算器</h1>
+            <div class="calc-menu">
+                <button id="history-btn" class="icon-btn" title="歷史記錄">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                </button>
+                <button id="settings-btn" class="icon-btn" title="設置">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 1v6m0 6v6"/>
+                        <path d="M1 12h6m6 0h6"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- 顯示屏 -->
+        <div class="calc-display">
+            <div class="calc-expression" id="calc-expression"></div>
+            <div class="calc-result" id="calc-result">0</div>
+        </div>
+
+        <!-- 按鈕區域 -->
+        <div class="calc-buttons">
+            <!-- 第一行：清除和退格 -->
+            <div class="calc-row">
+                <button class="calc-btn function" data-action="clear">C</button>
+                <button class="calc-btn function" data-action="clear-entry">CE</button>
+                <button class="calc-btn function" data-action="backspace">⌫</button>
+                <button class="calc-btn operator" data-action="divide">÷</button>
+            </div>
+
+            <!-- 第二行：數字7-9和乘法 -->
+            <div class="calc-row">
+                <button class="calc-btn number" data-number="7">7</button>
+                <button class="calc-btn number" data-number="8">8</button>
+                <button class="calc-btn number" data-number="9">9</button>
+                <button class="calc-btn operator" data-action="multiply">×</button>
+            </div>
+
+            <!-- 第三行：數字4-6和減法 -->
+            <div class="calc-row">
+                <button class="calc-btn number" data-number="4">4</button>
+                <button class="calc-btn number" data-number="5">5</button>
+                <button class="calc-btn number" data-number="6">6</button>
+                <button class="calc-btn operator" data-action="subtract">−</button>
+            </div>
+
+            <!-- 第四行：數字1-3和加法 -->
+            <div class="calc-row">
+                <button class="calc-btn number" data-number="1">1</button>
+                <button class="calc-btn number" data-number="2">2</button>
+                <button class="calc-btn number" data-number="3">3</button>
+                <button class="calc-btn operator" data-action="add">+</button>
+            </div>
+
+            <!-- 第五行：0、小數點和等號 -->
+            <div class="calc-row">
+                <button class="calc-btn number zero" data-number="0">0</button>
+                <button class="calc-btn number" data-action="decimal">.</button>
+                <button class="calc-btn equals" data-action="equals">=</button>
+            </div>
+        </div>
+
+        <!-- 科學計算器擴展（隱藏） -->
+        <div class="scientific-panel" id="scientific-panel">
+            <div class="calc-row">
+                <button class="calc-btn function" data-action="sin">sin</button>
+                <button class="calc-btn function" data-action="cos">cos</button>
+                <button class="calc-btn function" data-action="tan">tan</button>
+                <button class="calc-btn function" data-action="log">log</button>
+            </div>
+            <div class="calc-row">
+                <button class="calc-btn function" data-action="ln">ln</button>
+                <button class="calc-btn function" data-action="sqrt">√</button>
+                <button class="calc-btn function" data-action="power">x²</button>
+                <button class="calc-btn function" data-action="factorial">x!</button>
+            </div>
+            <div class="calc-row">
+                <button class="calc-btn function" data-action="pi">π</button>
+                <button class="calc-btn function" data-action="e">e</button>
+                <button class="calc-btn function" data-action="percent">%</button>
+                <button class="calc-btn function" data-action="parentheses">()</button>
+            </div>
+        </div>
+
+        <!-- 歷史記錄面板 -->
+        <div class="history-panel" id="history-panel">
+            <div class="history-header">
+                <h3>歷史記錄</h3>
+                <button id="clear-history" class="icon-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3,6 5,6 21,6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="history-list" id="history-list">
+                <!-- 歷史記錄項目將動態添加 -->
+            </div>
+        </div>
+
+        <!-- 隱藏入口提示 -->
+        <div class="hidden-entrance-hint" id="entrance-hint">
+            <p>長按 "=" 鍵3秒進入隱藏模式</p>
+        </div>
+
+        <!-- 密碼輸入對話框 -->
+        <div class="password-modal" id="password-modal">
+            <div class="modal-content">
+                <h3>輸入密碼</h3>
+                <div class="password-input-group">
+                    <input type="password" id="hidden-password" placeholder="請輸入密碼">
+                    <div class="password-dots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="cancel-password" class="btn-secondary">取消</button>
+                    <button id="confirm-password" class="btn-primary">確認</button>
+                </div>
+                <div class="password-hint">
+                    <small>提示：連續輸入特定數字序列</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- 偽裝模式切換 -->
+        <div class="disguise-toggle" id="disguise-toggle">
+            <button class="disguise-btn" data-mode="normal" title="正常模式">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+            </button>
+            <button class="disguise-btn active" data-mode="calculator" title="計算器模式">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="2" width="16" height="20" rx="2"/>
+                    <path d="M8 6h8"/>
+                    <path d="M8 10h8"/>
+                    <path d="M8 14h8"/>
+                    <path d="M8 18h8"/>
+                </svg>
+            </button>
+            <button class="disguise-btn" data-mode="notes" title="筆記模式">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14,2 14,8 20,8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- 加載中指示器 -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div>
+        <p>正在驗證...</p>
+    </div>
+
+    <!-- JavaScript 模組 -->
+    <script src="js/core/storage.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/security/disguise.js"></script>
+    <script src="js/ui/calc-ui.js"></script>
+    <script src="js/calc.js"></script>
+</body>
+</html>
+
