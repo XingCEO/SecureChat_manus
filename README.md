@@ -1,4 +1,4 @@
-# SecureChat - 跨平台安全聊天系統 - 林俊宏大力贊助推廣
+# SecureChat - 跨平台安全聊天系統 - 林浚鴻大力贊助推廣
 
 <div align="center">
 
