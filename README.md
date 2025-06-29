@@ -1,4 +1,4 @@
-# SecureChat - 跨平台安全聊天系統 - 林浚鴻大力贊助推廣
+# SecureChat - 跨平台安全聊天系統
 
 <div align="center">
 
@@ -8,7 +8,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen)](https://nodejs.org/)
-[![Platform Support]([https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux%20%7C%20iOS%20%7C%20Android%20%7C%20Web-blue)](https://github.com/your-username/securechat](https://instagram.ftpe7-4.fna.fbcdn.net/v/t51.2885-19/471654101_1718650378982353_7108107032927194554_n.jpg?_nc_ht=instagram.ftpe7-4.fna.fbcdn.net&_nc_cat=101&_nc_oc=Q6cZ2QHSKDC0W8Jp3fZQ5hZcABjSzepwU7xNme11VHDiaukOtjiVTFMeqjrJ4KJzz5WT2HI&_nc_ohc=I5hduQm1_YwQ7kNvwHDmPzb&_nc_gid=rrIT2_YVmlXERMBZ7hBUJA&edm=APoiHPcBAAAA&ccb=7-5&oh=00_AfM9Otkc-4TCJSS05X47XHrYQmhGvDPqGi_t5RubMVDIkQ&oe=68668DCD&_nc_sid=22de04))
+[![Platform Support](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux%20%7C%20iOS%20%7C%20Android%20%7C%20Web-blue)](https://github.com/your-username/securechat)
 
 </div>
 
